@@ -23,6 +23,9 @@
  *     distribution.
  *
  */
+
+// security update by clya900
+
 #pragma once
 #include <windows.h>
 #include <cstdint>
@@ -103,14 +106,16 @@ class game_version_manager
         {
             if(this->IsUnknown())
             {
-                strcpy(buffer, "UNKNOWN GAME");
+                //strcpy(buffer, sizeof(buffer), "UNKNOWN GAME"); // original code
+                strcpy_s(buffer, sizeof(buffer), "UNKNOWN GAME");
                 return buffer;
             }
 
             const char* g = this->IsIII() ? "III" : this->IsVC() ? "VC" : this->IsSA() ? "SA" : this->IsIV() ? "IV" : this->IsEFLC() ? "EFLC" : "UNK";
             const char* r = this->IsUS()? "US" : this->IsEU()? "EURO" : "UNK_REGION";
             const char* s = this->IsSteam()? "Steam" : "";
-            sprintf(buffer, "GTA %s %d.%d.%d.%d %s%s", g, major, minor, majorRevision, minorRevision, r, s);
+            //sprintf(buffer, "GTA %s %d.%d.%d.%d %s%s", g, major, minor, majorRevision, minorRevision, r, s); // original code
+            sprintf_s(buffer, sizeof(buffer), "GTA %s %d.%d.%d.%d %s%s", g, major, minor, majorRevision, minorRevision, r, s);
             return buffer;
         }
 
@@ -129,7 +134,11 @@ class game_version_manager
         void RaiseIncompatibleVersion()
         {
             char buf[128], v[32];
-            sprintf(buf,
+            /*sprintf_s(buf,
+                "An incompatible exe version has been detected! (%s)\nContact the mod creator!",
+                GetVersionText(v)
+            );*/ // original code.
+            sprintf_s(buf,
                 "An incompatible exe version has been detected! (%s)\nContact the mod creator!",
                 GetVersionText(v)
                 );
